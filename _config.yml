@@ -1,4 +1,6 @@
 permalink: /:year/:month/:title/
+url: http://dayigu.github.com
+author: dayigu
 pygments: true
 markdown: maruku
 
