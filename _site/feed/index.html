@@ -4,18 +4,45 @@
         xmlns:atom="http://www.w3.org/2005/Atom"
   >
   <channel>
-    <title></title>
-    <link href="/feed/" rel="self" />
+    <title>dayigu</title>
+    <link href="http://dayigu.github.com/feed/" rel="self" />
     <link href="http://yihui.name/" />
-    <lastBuildDate>2012-04-12T23:30:48+08:00</lastBuildDate>
+    <lastBuildDate>2012-04-13T00:49:09+08:00</lastBuildDate>
     <webMaster>xie@yihui.name</webMaster>
     
     <item>
+      <title>行星与恒星的合周期</title>
+      <link href="http://dayigu.github.com/2012/04/planet-in-conjunction-with-star/"/>
+      <pubDate>2012-04-13T00:00:00+08:00</pubDate>
+      <author>dayigu</author>
+      <guid>http://dayigu.github.com/2012/04/planet-in-conjunction-with-star</guid>
+      <content:encoded><![CDATA[<p>假设行星的轨道都为圆，且与地球轨道在同一平面上. 行星与恒星相合的条件(O为太阳，e是地球，v是行星，以金星为例，S是恒星的方向):</p>
+
+<p><img alt='行星与恒星相合的条件' src='/images/planet_star_conjunction.png' /></p>
+
+<p>假设在 t=0 时相合，经过 t 的时间再次相合，则 e-&gt;v 必须达到与 t＝0 相同的方向. 因此得到相合的条件:</p>
+
+<p><img alt='相合方程' src='/images/latex/eq_7378894517581845269_2.png' /></p>
+
+<p>该方程不好求解，先把这两项的差值随时间的变化画出来(以金星为例，a=0.7233, 共转周期为224.7 天)</p>
+
+<pre><code>import numpy as np
+t=np.array(range(365*5))
+plot(t/365.2422,np.sin(2*np.pi*t/365.2422)-0.7233*np.sin(2*np.pi*t/224.7))
+grid()
+xlabel(&#39;year&#39;)</code></pre>
+
+<p><img alt='金星与恒星的会合' src='/images/venus_conjunction.png' /></p>
+
+<p>当曲线经过0轴时发生一次相合。因此5年内发生了10次相合，平均每年2次。但也可能某年内相合3次，接下来的1年内只发生1次。</p>]]></content:encoded>
+    </item>
+    
+    <item>
       <title>test</title>
-      <link href="/2012/04/test/"/>
+      <link href="http://dayigu.github.com/2012/04/test/"/>
       <pubDate>2012-04-12T00:00:00+08:00</pubDate>
-      <author></author>
-      <guid>/2012/04/test</guid>
+      <author>dayigu</author>
+      <guid>http://dayigu.github.com/2012/04/test</guid>
       <content:encoded><![CDATA[<p>test</p>
 
 <p>$ E = m c^2 $</p>]]></content:encoded>
