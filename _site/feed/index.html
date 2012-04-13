@@ -7,8 +7,53 @@
     <title>dayigu</title>
     <link href="http://dayigu.github.com/feed/" rel="self" />
     <link href="http://yihui.name/" />
-    <lastBuildDate>2012-04-13T20:43:32+08:00</lastBuildDate>
+    <lastBuildDate>2012-04-14T01:45:48+08:00</lastBuildDate>
     <webMaster>xie@yihui.name</webMaster>
+    
+    <item>
+      <title>行星的相位</title>
+      <link href="http://dayigu.github.com/2012/04/planet-phase/"/>
+      <pubDate>2012-04-13T00:00:00+08:00</pubDate>
+      <author>dayigu</author>
+      <guid>http://dayigu.github.com/2012/04/planet-phase</guid>
+      <content:encoded><![CDATA[<p>月有阴晴圆缺是说的从地球上看月球有相位的变化。那么行星有相位变化吗? 有，只不过从地球上看行星只能看到光点，无法辨别它的圆缺，它的相位对其亮度是有影响的。</p>
+
+<p>相(phase)一般定义为可见区域中的日照部分占总日照区域(对球形天体日照区域为一半)的比例，如果能看见全部的光照区域，相为1, 如果看见的区域全部为黑夜，则相为0。根据这个定义，以火星为例，相与日－火连线和地－火连线的夹角有关，见下图。</p>
+
+<p><img alt='相的计算' src='/images/phase_define.png' /></p>
+
+<p>假设行星轨道为理想圆，所有行星轨道都在同一个平面上，则从地球上看行星的相变化的计算见下图:</p>
+
+<p><img alt='行星的相计算' src='/images/planet_phase.png' /></p>
+
+<p>可以看出，当地球外侧行星与地球相冲时相位最大，相合时也最大，但此时无法直接观测。地球内侧行星与地球相冲时相位最小，相合时相位最大。</p>
+
+<p>google search graph 没有提供arctan2/atan2 函数，因此不能用它来画金星相位变化曲线。下面是用 Python+matplotlib 画的金星的相位变化曲线:</p>
+
+<pre><code>import numpy as np
+t=np.linspace(0,5,200)
+plot(t,(pi-abs(np.arctan2(np.sin(2*pi*t*(1-1/0.62)),(0.72-np.cos(2*pi*t*(1-1/0.62))))))/pi)
+axis([0, 3.5, 0, 1])
+xlabel(&#39;year&#39;)
+ylabel(&#39;phase&#39;)
+title(&#39;venus&#39;)</code></pre>
+
+<p><img alt='金星的相位变化' src='/images/venus_phase.png' /></p>
+
+<p>对于地球外侧行星，其相位角beta不会大于pi/2, 因此可以用google search graph 来绘制相位变化曲线。</p>
+
+<p><a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1%2F1.88))%2F(1.52-cos(2pi*x(1-1%2F1.88))))))%2Fpi'>火星</a>的相位变化见下图。最大相位为1，发生在冲、合时。其中较尖锐的锋为冲，较钝的锋为合。最小相约为0.77。其波动周期就取决于地球与火星的合会周期。</p>
+
+<p><img alt='火星的相位变化' src='/images/mars_phase.png' /></p>
+
+<p><a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1%2F11.87))%2F(5.2-cos(2pi*x(1-1%2F11.87))))))%2Fpi'>木星</a>的相变化为:</p>
+
+<p><img alt='木星的相位变化' src='/images/jupiter_phase.png' /></p>
+
+<p>可见其相位都很大，最小值为0.94. 变化周期约为1年。</p>
+
+<p>对于更远的行星，<a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1%2F29.53))%2F(9.55-cos(2pi*x(1-1%2F29.53))))))%2Fpi'>土星</a>, <a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1%2F84.55))%2F(19.26-cos(2pi*x(1-1%2F84.55))))))%2Fpi'>天王星</a>, <a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1%2F166.24))%2F(30.23-cos(2pi*x(1-1%2F166.24))))))%2Fpi'>海王星</a>，其相位变化范围更小。</p>]]></content:encoded>
+    </item>
     
     <item>
       <title>行星与恒星的合周期</title>
@@ -30,7 +75,7 @@
 
 <p>该方程不好求解，因此把这两个等式和不等式的两项差值随时间的变化画出来(用 google 搜索直接可以画出曲线)。</p>
 
-<p>如以<a href='https://www.google.com.hk/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2pi*x)-0.72*sin(2pi*x%2F0.62)%2C+cos(2pi*x)-0.72*cos(2pi*x%2F0.62)'>金星</a>为例，a=0.72, 公转周期为0.62年。</p>
+<p>如以<a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2pi*x)-0.72*sin(2pi*x%2F0.62)%2C+cos(2pi*x)-0.72*cos(2pi*x%2F0.62)'>金星</a>为例，a=0.72, 公转周期为0.62年。</p>
 
 <p><img alt='金星与恒星的会合' src='/images/venus_conjunction.png' /></p>
 
@@ -40,13 +85,13 @@
 
 <p><img alt='火星与恒星的会合' src='/images/mars_conjunction.png' /> 木星会合周期就更长了，基本上在木星的公转一周中，只有1次机会与其他恒星相合。但是由于木星的公转较慢，在发生相合的连续一两年内都处于相合的位置。</p>
 
-<p><img alt='木星与恒星的会合' src='/images/jupiter_conjunction.png' /> 更外层行星与恒星的会合规律与木星相同，都是在公转一周中发生1次。</p>
+<p><img alt='木星与恒星的会合' src='/images/jupiter_conjunction.png' /> 更外层行星与恒星的会合规律与木星相同，都是在公转一周中发生1次, 但每次会合的持续时间会比较长。</p>
 
 <p>以上的曲线都能用 google search graph 的功能直接画出:</p>
 
 <ul>
 <li>
-<p><a href='https://www.google.com.hk/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2pi*x)-0.72*sin(2pi*x%2F0.62)%2C+cos(2pi*x)-0.72*cos(2pi*x%2F0.62)'>金星</a></p>
+<p><a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2pi*x)-0.72*sin(2pi*x%2F0.62)%2C+cos(2pi*x)-0.72*cos(2pi*x%2F0.62)'>金星</a></p>
 </li>
 
 <li>
@@ -68,9 +113,7 @@
 <li>
 <p><a href='http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2*pi*x)-30.23*sin(2*pi*x%2F166.24)%2C+cos(2pi*x)-30.23*cos(2pi*x%2F166.24)'>海王星</a></p>
 </li>
-</ul>
-
-<p>比如海王星的曲线在 google 中显示为: <img alt='海王星与恒星的会合，by google' src='/images/neptune_conjunction_google.png' /></p>]]></content:encoded>
+</ul>]]></content:encoded>
     </item>
     
   </channel>

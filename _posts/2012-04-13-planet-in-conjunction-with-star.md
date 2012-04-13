@@ -2,7 +2,7 @@
 layout: post
 title: "行星与恒星的合周期"
 categories: [astronomy]
-tags: [planet, astronomy, conjunction, Python]
+tags: [planet, astronomy, conjunction]
 ---
 
 行星与恒星相合是指从地球看过去，行星与该恒星在同一个方位，比如金星与昴星团相合。当然相合的条件首先是恒星位于太阳系行星运行的轨道平面上。那么某行星与某恒星相合的周期是多少呢? 
@@ -44,7 +44,7 @@ tags: [planet, astronomy, conjunction, Python]
 * [天王星][5]
 * [海王星][6]
 
-  [1]: https://www.google.com.hk/search?sourceid=chrome&ie=UTF-8&q=sin(2pi*x)-0.72*sin(2pi*x%2F0.62)%2C+cos(2pi*x)-0.72*cos(2pi*x%2F0.62)
+  [1]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2pi*x)-0.72*sin(2pi*x%2F0.62)%2C+cos(2pi*x)-0.72*cos(2pi*x%2F0.62)
   [2]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-1.52*sin(2*pi*x%2F1.88)%2C+cos(2pi*x)-1.52*cos(2pi*x%2F1.88)
   [3]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-5.20*sin(2*pi*x%2F11.87)%2C+cos(2pi*x)-5.20*cos(2pi*x%2F11.87)
   [4]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-9.55*sin(2*pi*x%2F29.53)%2C+cos(2pi*x)-9.55*cos(2pi*x%2F29.53)
