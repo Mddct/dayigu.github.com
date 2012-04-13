@@ -21,21 +21,21 @@ tags: [planet, astronomy, conjunction, Python]
 
 该方程不好求解，因此把这两个等式和不等式的两项差值随时间的变化画出来(用 google 搜索直接可以画出曲线)。
 
-如以[金星][1]为例，a=0.72, 共转周期为0.62年。
+如以[金星][1]为例，a=0.72, 公转周期为0.62年。
 
 ![金星与恒星的会合](/images/venus_conjunction.png)
 
 当蓝色曲线经过x轴，且红色曲线在x轴上面时发生一次相合。因此平均每年内发生1次相合。但也可能某年内相合2次，接下来的1年内没有。
 
-比如对火星(a=1.52, 共转周期1.88年)，平均每年1次会合。
+[火星][2](a=1.52, 公转周期1.88年)的曲线如下，蓝色曲线经过x轴，且红色曲线在x轴下面时相合，平均每2年1次(周期稍大于1／2, 如前26年发生14次)。
 
 ![火星与恒星的会合](/images/mars_conjunction.png)								 									
-木星会合周期就更长了，基本上在木星的共转一周中，只有两次机会与其他恒星相合。
+木星会合周期就更长了，基本上在木星的公转一周中，只有1次机会与其他恒星相合。但是由于木星的公转较慢，在发生相合的连续一两年内都处于相合的位置。
 
 ![木星与恒星的会合](/images/jupiter_conjunction.png)								 									
-更外层行星与恒星的会合规律与木星相同，都是在共转一周中发生两次。
+更外层行星与恒星的会合规律与木星相同，都是在公转一周中发生1次, 但每次会合的持续时间会比较长。
 
-以上的曲线也可以用 google search graph 的功能直接画出:
+以上的曲线都能用 google search graph 的功能直接画出:
 
 * [金星][1]
 * [火星][2]
@@ -45,11 +45,8 @@ tags: [planet, astronomy, conjunction, Python]
 * [海王星][6]
 
   [1]: https://www.google.com.hk/search?sourceid=chrome&ie=UTF-8&q=sin(2pi*x)-0.72*sin(2pi*x%2F0.62)%2C+cos(2pi*x)-0.72*cos(2pi*x%2F0.62)
-  [2]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-1.52*sin(2*pi*x%2F1.88)
-  [3]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-5.20*sin(2*pi*x%2F11.87)
-  [4]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-9.55*sin(2*pi*x%2F29.53)
-  [5]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-19.26*sin(2*pi*x%2F84.55)
-  [6]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-30.23*sin(2*pi*x%2F166.24)
-
-比如海王星的曲线在 google 中显示为:
-![海王星与恒星的会合，by google](/images/neptune_conjunction_google.png)
+  [2]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-1.52*sin(2*pi*x%2F1.88)%2C+cos(2pi*x)-1.52*cos(2pi*x%2F1.88)
+  [3]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-5.20*sin(2*pi*x%2F11.87)%2C+cos(2pi*x)-5.20*cos(2pi*x%2F11.87)
+  [4]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-9.55*sin(2*pi*x%2F29.53)%2C+cos(2pi*x)-9.55*cos(2pi*x%2F29.53)
+  [5]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-19.26*sin(2*pi*x%2F84.55)%2C+cos(2pi*x)-19.26*cos(2pi*x%2F84.55)
+  [6]: http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=sin(2*pi*x)-30.23*sin(2*pi*x%2F166.24)%2C+cos(2pi*x)-30.23*cos(2pi*x%2F166.24)
