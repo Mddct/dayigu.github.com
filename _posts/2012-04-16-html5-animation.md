@@ -38,3 +38,8 @@ html5 绘制的图形都是放在 html element `<canvas></canvas>` 中的。canv
   [3]: http://dayigu.github.com/html/planet_star_conjunction.html
 
 主要的绘图函数放在了一个独立的 js 文件中了，简单的封装了一下。
+
+## 参考资料:
+
+* [Canvas教程](https://developer.mozilla.org/cn/Canvas_tutorial)
+* [一个JS动画框架](http://www.funnyhao.com/a-js-animation-framework-based-on-html5-canvas/) 
