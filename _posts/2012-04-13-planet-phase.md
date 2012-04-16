@@ -2,7 +2,7 @@
 layout: post
 title: "行星的相位"
 category: [astronomy]
-tags: [planet, astronomy, phase]
+tags: [planet, astronomy, phase, python]
 ---
 
 月有阴晴圆缺是说的从地球上看月球有相位的变化。那么行星有相位变化吗? 有，只不过从地球上看行星只能看到光点，无法辨别它的圆缺，它的相位对其亮度是有影响的。
