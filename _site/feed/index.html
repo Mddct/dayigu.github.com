@@ -7,8 +7,200 @@
     <title>dayigu</title>
     <link href="http://dayigu.github.com/feed/" rel="self" />
     <link href="http://yihui.name/" />
-    <lastBuildDate>2012-04-17T00:50:19+08:00</lastBuildDate>
+    <lastBuildDate>2012-04-18T01:37:29+08:00</lastBuildDate>
     <webMaster>xie@yihui.name</webMaster>
+    
+    <item>
+      <title>html5 动画实例分析: Blob</title>
+      <link href="http://dayigu.github.com/2012/04/html5-animation-example/"/>
+      <pubDate>2012-04-17T00:00:00+08:00</pubDate>
+      <author>dayigu</author>
+      <guid>http://dayigu.github.com/2012/04/html5-animation-example</guid>
+      <content:encoded><![CDATA[<p>在 html5 动画的众多&#8221;炫&#8221;的例子中，<a href='http://hakim.se/experiments/html5/blob/03/'>Blob</a> 是尤为出色的一个，其特色在于对物理的模拟: 液滴的运动、分离、合并都相当逼真。下面将对这个例子进行分析，不仅要找到其中对物理规律的模拟方法，也学习一下 javascript 的技巧。</p>
+
+<h1 id='html'>html文件</h1>
+
+<p>首先查看 html 源文件，并把无关紧要的部分删除，就能找到模拟的关键部分:</p>
+
+<pre><code>&lt;body data-twttr-rendered=&quot;true&quot;&gt;
+	&lt;div id=&quot;panel&quot;&gt;
+     &lt;h2&gt;&lt;a href=&quot;http://hakim.se/experiments/&quot;&gt;Experiments&lt;/a&gt; / Blob  / 03&lt;/h2&gt;
+     &lt;p&gt;&lt;b&gt;Double click&lt;/b&gt; on a blob to split it, drag together to merge&lt;br&gt;&lt;b&gt;Shake&lt;/b&gt; the browser window to make them bounce.&lt;br&gt;Use the keyboard &lt;b&gt;&lt;a id=&quot;keyboardUp&quot; href=&quot;http://hakim.se/experiments/html5/blob/03/#&quot;&gt;up&lt;/a&gt; / &lt;a id=&quot;keyboardDown&quot; href=&quot;http://hakim.se/experiments/html5/blob/03/#&quot;&gt;down&lt;/a&gt;&lt;/b&gt; arrows to change blob size and&lt;br&gt;the &lt;b&gt;&lt;a id=&quot;keyboardLeft&quot; href=&quot;http://hakim.se/experiments/html5/blob/03/#&quot;&gt;left&lt;/a&gt; / &lt;a id=&quot;keyboardRight&quot; href=&quot;http://hakim.se/experiments/html5/blob/03/#&quot;&gt;right&lt;/a&gt;&lt;/b&gt; arrows to change between skins.&lt;/p&gt;
+&lt;/div&gt;		
+&lt;canvas id=&quot;world&quot; width=&quot;1124&quot; height=&quot;693&quot;&gt;&lt;p class=&quot;noCanvas&quot;&gt;You need a &lt;a href=&quot;http://www.google.com/chrome&quot;&gt;modern browser&lt;/a&gt; to view this.&lt;/p&gt;&lt;/canvas&gt;
+&lt;script src=&quot;./Blob_files/blob.min.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;&lt;/html&gt;</code></pre>
+
+<p>可见，动画都绘制在 id 为 world 的 canvas 中的，动画则由 blob.min.js 所控制。</p>
+
+<h1 id='js_'>js 文件</h1>
+
+<p>blob.min.js 中主要定义了对象 Blob 和 BlobWorld，前者是液滴对象，后者是液滴的控制。</p>
+
+<h2 id='blob'>Blob</h2>
+
+<p>先看 Blob:</p>
+
+<pre><code>function Blob(){
+    this.position={x:0,y:0}; // 位置
+    this.velocity={x:0,y:0}; // 速度
+    this.radius=85;		     // 半径
+    this.nodes=[];           // 节点对象数组，节点只记录边界
+    this.rotation={current:0,target:0};  // 旋转
+    this.dragNodeIndex=-1;     // 拉伸的node序号
+    this.lastSplitTime=0;      // 上次分裂时间
+    this.quality=16;           // 质量, 其实是节点数量，即周长
+    this.dirtyRegion=new Region // 弄脏的区域，指涂抹过的地方，下一个时刻需要刷新
+}</code></pre>
+
+<p>这相当于 Blob 的构造函数。其中关键的量是 nodes，它是边界单元的一维链表。//(注意观察液滴的行为，其周长是不变的，而体积／面积是变化的，这一点不符合物理)</p>
+
+<p>以下是用 prototype 方法定义的成员函数。</p>
+
+<p>生成节点 generateNodes:</p>
+
+<pre><code>Blob.prototype.generateNodes=function(){
+	this.nodes=[];
+	var b,e;
+	for(b=0;b&lt;this.quality;b++){
+		e={normal:{x:0,y:0},normalTarget:{x:0,y:0},position:{x:this.position.x,y:this.position.y},ghost:{x:this.position.x,y:this.position.y},angle:0};
+	this.nodes.push(e)
+	}
+	this.updateJoints();
+	this.updateNormals()
+};</code></pre>
+
+<p>可见 nodes 中存放的是一个个对象，对象中有属性:</p>
+
+<ul>
+<li>normal: 节点的位置坐标</li>
+
+<li>normalTarget: 节点的目标位置坐标</li>
+
+<li>position: 位置坐标</li>
+
+<li>ghost: 上一时刻的位置</li>
+
+<li>angle: 角度</li>
+
+<li>joint: 链接，为 Joint 对象</li>
+</ul>
+
+<p>初始化时 joint 不设置，在 updateJoints中设。链接记录前后各3个node，共6个。getArrayIndexByOffset 用于寻找相邻的单元序号，根据序号创建 Joint 对象。Joint 对象的属性有 node，strength 和 strain。</p>
+
+<p>然后用 updateNormals 建立节点的法向。</p>
+
+<p>初始化后的液滴是 完美的圆形。</p>
+
+<p>split: 分裂</p>
+
+<p>分裂时将 nodes 中的前一半放到新建立的 Blob 对象中，本身只剩下一半，半径也各变为一半。并各自给一个水平速度，使其分开。</p>
+
+<p>merge: 合并</p>
+
+<p>合并时将两个液滴的速度取平均，作为合并后的速度(如果两个液滴大小不同，则不符合动量守恒)。半径也是二者直接相加。</p>
+
+<h2 id='blobworld'>BlobWorld</h2>
+
+<p>BlobWorld 也是个对象，其成员变量有: g,t,l,j,q,I,u,v,y,f,K,x,w,C。</p>
+
+<ul>
+<li>g: 区域尺寸参数</li>
+
+<li>t: canvas 对象</li>
+
+<li>l: canvas 的 2d context 对象</li>
+
+<li>j 用于存放液滴 blob 对象</li>
+
+<li>q</li>
+
+<li>I,J: 窗口相对于屏幕的坐标. 当移动窗口时，根据I，J的变化改变速度</li>
+
+<li>u，v: 速度</li>
+
+<li>y</li>
+
+<li>f</li>
+
+<li>K: 速度参数，其中 y 速度为 1.2, 相当于有一定的重力</li>
+
+<li>x: 记录2个液滴的序号</li>
+
+<li>w</li>
+
+<li>C: 填充颜色、线条颜色等</li>
+</ul>
+
+<h3 id='id2'>初始化</h3>
+
+<p>其入口是 init()。</p>
+
+<pre><code>this.init=function(){
+if((t=document.getElementById(&quot;world&quot;))&amp;&amp;t.getContext){
+    l=t.getContext(&quot;2d&quot;);
+    document.addEventListener(&quot;mousemove&quot;,e,false);
+    t.addEventListener(&quot;mousedown&quot;,i,false);
+    t.addEventListener(&quot;dblclick&quot;,M,false);
+    document.addEventListener(&quot;mouseup&quot;,k,false);
+    document.addEventListener(&quot;keydown&quot;,N,false);
+    t.addEventListener(&quot;touchstart&quot;,s,false);
+    t.addEventListener(&quot;touchmove&quot;,z,false);
+    t.addEventListener(&quot;touchend&quot;,L,false);
+    window.addEventListener(&quot;resize&quot;,H,false);
+    document.getElementById(&quot;keyboardUp&quot;).addEventListener(&quot;click&quot;,O,false);
+    document.getElementById(&quot;keyboardDown&quot;).addEventListener(&quot;click&quot;,P,false);
+    document.getElementById(&quot;keyboardLeft&quot;).addEventListener(&quot;click&quot;,Q,false);
+    document.getElementById(&quot;keyboardRight&quot;).addEventListener(&quot;click&quot;,R,false);
+    b({x:g.width*0.15,y:g.height*Math.random()*0.2},{x:g.width*0.011,y:0});
+    b({x:g.width*0.85,y:g.height*Math.random()*0.2},{x:-g.width*0.011,y:0});
+    H();
+    setInterval(S,1E3/60)
+}
+}</code></pre>
+
+<p>t 是 canvas 对象，l 是 2d context。然后把鼠标事件绑定到函数上。</p>
+
+<p>比如双击鼠标 dbclick，调用 M()，M() 再调用 G()，G()中进行分裂。</p>
+
+<p>init() 中首先调用 b() 生成两个 Blob 对象。初始位置在左、右上角，初始速度相对。</p>
+
+<p>然后调用 H()，设定几何尺寸。</p>
+
+<p>最后设置定时函数 setInterval，每1／60 s执行一次 S()。</p>
+
+<h3 id='id3'>运动模拟</h3>
+
+<p>S() 是模拟液滴运动的核心函数。</p>
+
+<p>不知是作者的习惯，或是有意，经常写一些混乱的代码，如:</p>
+
+<pre><code>h=0;
+for(n=j.length;h&lt;n;h++){</code></pre>
+
+<p>一般写法:</p>
+
+<pre><code>n=j.length;
+for(h=0;h&lt;n;h++){</code></pre>
+
+<p>如果有两个液滴，而且距离上次分裂的时间大于 500s 就合并。</p>
+
+<p>模拟运动时，考虑了液滴质心的运动、鼠标拖拽、自身旋转，以及相邻节点的牵引作用。计算这些作用对坐标的影响时，基本都采用了亚松弛的方法，如:</p>
+
+<pre><code>	c.normal.x+=(c.normalTarget.x-c.normal.x)* 0.05;
+	c.normal.y+=(c.normalTarget.y-c.normal.y)*0.05;
+
+	c.position.x+=(p.x-c.position.x)*0.1;
+	c.position.y+=(p.y-c.position.y)*0.1;</code></pre>
+
+<h3 id='id4'>其他函数</h3>
+
+<p>D(f,h): 找出距离点h最近的液滴f中的节点node</p>
+
+<h1 id='end'>end</h1>
+
+<p>通过这个例子，对 javascript 的特点有了点了解。关于 javascript 在面向对象方面的编程，可参考<a href='http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_encapsulation.html'>阮一峰的网络日志</a>, 其讲解清晰、透彻。</p>]]></content:encoded>
+    </item>
     
     <item>
       <title>HTML5 动画</title>
