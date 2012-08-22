@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>WhyUseOrgModeToWriteBlog</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="WhyUseOrgModeToWriteBlog"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-08-23 00:19:05 CST"/>
+<meta name="author" content="dayigu"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style><link rel="stylesheet" type="text/css" href="css/worg.css"/>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">WhyUseOrgModeToWriteBlog</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">why</a></li>
+<li><a href="#sec-2">how</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">why</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+最早的时候在自己的机器上搭了个 wordpress 写些乱七八糟的，后来在自己的机器上毕竟不方便，就放弃了。今年初的时候，从<a href="http://www.yangzhiping.com">阳志平</a> 那里了解到 github、Jekyll、markdown等等，对于用 markdown 写作，用 Jekyll 发布到 github 上面的 blog 产生了兴趣。因此决定一试，其打动我的是：
+</p><ul>
+<li>markdown 写作，直接文本写作，不需要管格式，专注内容。和 TeX、wiki 的思想接近
+</li>
+<li>github 托管。有版本管理，速度快、时髦
+</li>
+</ul>
+
+
+<p>
+但试了一段时间后又放下了，原因如下：
+</p><ul>
+<li>没有找到好的模版，自己写 css 太费劲，找的几个现成的又不满意
+</li>
+<li>不支持数学公式。本来 Jekyll 是支持的，但 github 上的 Jekyll 不支持
+</li>
+<li>对 markdown 也还是不太满意
+</li>
+</ul>
+
+
+<p>
+为什么转到 org-mode 上了呢？用 emacs 发布 html 的功能早就用过 emacswiki、muse，后来也都放弃掉。org-mode 也早就听说过，但一直没有兴趣用。直到暑假期间，心血来潮，觉得用 emacs 写文档很爽，尤其是文字显式很漂亮。因此就尝试了 org-mode。orgmode 的 GTD 很出色，但我的主要目标是用来写文档。与 markdown 相比，orgmode 的优点有：
+</p><ul>
+<li>与 emacs 集成度高，支持好，开发活跃。能够在 emacs 内输出 html、pdf 等格式
+</li>
+<li>制作 table 方便
+</li>
+<li>能够在 emacs 内显式图片
+</li>
+<li>对 latex 公式支持的好
+</li>
+<li>支持 “文学编程” （orgmode 中叫 Bable），可以直接在文档内部运行程序片段，将结果（文字、图像、表格）嵌入到文档中
+</li>
+</ul>
+
+
+<p>
+既然有这些优点，自然就想把它用到 blog 上。github 上有个 o-blog 是基于 orgmode 的，做得也很漂亮。但试用时总有错误，加上它还是复杂了点，就放弃了，转而直接利用 orgmode 的 publish html 的功能发布 blog。图的就是上面给出的相比markdown的几个优点。
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">how</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+参考 worg 的 <a href="http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">publishing org-mode files to html</a> 写出我的发布配置：
+</p>
+
+
+
+<pre class="example">(require 'org-publish)
+(setq org-publish-project-alist
+      '(
+        ("blog-notes"
+         :base-directory "~/org/blog/"
+         :base-extension "org"
+         :publishing-directory "~/org/dayigu.github.com/"
+         :recursive t
+         :publishing-function org-publish-org-to-html
+         :headline-levels 4
+         :section-numbers nil
+         :auto-preamble t
+         :auto-sitemap t                ; Generate sitemap.org automagically...
+         :sitemap-filename "sitemap.org"  ; ... call it sitemap.org (it's the default)...
+         :sitemap-title "Sitemap"         ; ... with title 'Sitemap'.
+         :author "dayigu"
+         :email "dayigu at gmail dot com"
+         :style    "&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"css/worg.css\"/&gt;"
+         )
+        ("blog-static"
+         :base-directory "~/org/blog/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "~/org/dayigu.github.com/"
+         :recursive t
+         :publishing-function org-publish-attachment
+         )
+        ("blog" :components ("blog-notes" "blog-static"))
+        ;;
+        ))
+</pre>
+
+
+<p>
+写的blog post 都放在 ~/org/blog 下，以 ".org" 为文件后缀，图片放在 img 目录下。运行 <code>M-x org-publish-projects</code>, <code>blog</code>, 生成的 html 文件都输出到 ~/org/dayigu.github.com/ 下。
+</p>
+<p>
+首先要 建立一个 <a href="index.html">index</a>, 它会生成 blog 的首页，所有的 post list 也放在这里面。post 的链接形式为：
+</p>
+
+
+
+<pre class="example">[[file:WhyUseOrgModeToWriteBlog][为什么用 org-mode 写blog？]］
+</pre>
+
+
+<p>
+另外直接偷懒用了 worg 的 <a href="http://orgmode.org/worg/style/worg.css">css</a> .
+</p>
+<p>
+发布到 github 上，也就是 add、commit 再 push
+</p>
+
+
+
+<pre class="example">git add .
+git commit -m 'org blog commit'
+git push -u origin master
+</pre>
+
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2012-08-23 00:19:05 CST</p>
+<p class="author">Author: dayigu</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
