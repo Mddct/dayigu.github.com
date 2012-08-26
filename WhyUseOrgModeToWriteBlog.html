@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="为什么用 org-mode 写 blog？"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-08-23 00:26:35 CST"/>
+<meta name="generated" content="2012-08-25 00:07:40 CST"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -85,10 +85,12 @@
 
 </head>
 <body>
-
-<div id="preamble">
-
+<div id="org-div-home-and-up" style="text-align:right;font-size:70%;white-space:nowrap;">
+ <a accesskey="h" href="sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
 </div>
+
 
 <div id="content">
 <h1 class="title">为什么用 org-mode 写 blog？</h1>
@@ -198,6 +200,9 @@
 
 
 <p>
+评论直接采用 <a href="http://disgus.com">disqus</a>, 将 disqus 给出的评论代码设置给 html-postamble 。
+</p>
+<p>
 写的blog post 都放在 ~/org/blog 下，以 ".org" 为文件后缀，图片放在 img 目录下。运行 <code>M-x org-publish-projects</code>, <code>blog</code>, 生成的 html 文件都输出到 ~/org/dayigu.github.com/ 下。
 </p>
 <p>
@@ -230,11 +235,20 @@ git push -u origin master
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2012-08-23 00:26:35 CST</p>
-<p class="author">Author: dayigu</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+<div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'dayigubasket'; // required: replace example with your forum shortname
 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 </body>
 </html>
