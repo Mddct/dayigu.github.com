@@ -3,11 +3,11 @@
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Dayigu's Basket</title>
+<title>行星的相位</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Dayigu's Basket"/>
+<meta name="title" content="行星的相位"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-08-29 12:59:17 CST"/>
+<meta name="generated" content="2012-08-29 13:00:53 CST"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -93,41 +93,97 @@
 
 
 <div id="content">
-<h1 class="title">Dayigu's Basket</h1>
+<h1 class="title">行星的相位</h1>
 
-<p>Welcome to Dayigu's basket!
+<p>月有阴晴圆缺是说的从地球上看月球有相位的变化。那么行星有相位变化吗? 有，只不过从地球上看行星只能看到光点，无法辨别它的圆缺，它的相位对其亮度是有影响的。
+</p>
+<p>
+相(phase)一般定义为可见区域中的日照部分占总日照区域(对球形天体日照区域为一半)的比例，如果能看见全部的光照区域，相为1, 如果看见的区域全部为黑夜，则相为0。根据这个定义，以火星为例，相与日－火连线和地－火连线的夹角有关，见下图。
 </p>
 
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div class="figure">
+<p><img src="./img/phase_define.png"  alt="./img/phase_define.png" /></p>
+<p>相的计算</p>
+</div>
+
+<p>
+假设行星轨道为理想圆，所有行星轨道都在同一个平面上，则从地球上看行星的相变化的计算见下图:
+</p>
+
+<div class="figure">
+<p><img src="./img/planet_phase.png"  alt="./img/planet_phase.png" /></p>
+<p>行星的相计算</p>
+</div>
+
+<p>
+可以看出，当地球外侧行星与地球相冲时相位最大，相合时也最大，但此时无法直接观测。地球内侧行星与地球相冲时相位最小，相合时相位最大。
+</p>
+<p>
+ google search graph 没有提供arctan2/atan2 函数，因此不能用它来画金星相位变化曲线。下面是用 Python+matplotlib 画的金星的相位变化曲线:
+</p>
+
+
+<pre class="example">import numpy as np
+from math import pi
+import matplotlib.pyplot as plt
+t=np.linspace(0,5,200)
+plt.plot(t,(pi-abs(np.arctan2(np.sin(2*pi*t*(1-1/0.62)),(0.72-np.cos(2*pi*t*(1-1/0.62))))))/pi)
+plt.axis([0, 3.5, 0, 1])
+plt.xlabel('year')
+plt.ylabel('phase')
+plt.title('venus')
+pic='img/venus_phase.png'
+plt.savefig(pic)
+print '[[./%s]]'%pic
+</pre>
+
+
+
+<div class="figure">
+<p><img src="./img/venus_phase.png"  alt="./img/venus_phase.png" /></p>
+<p>金星的相位变化</p>
+</div>
+
+<p>
+对于地球外侧行星，其相位角beta不会大于pi/2, 因此可以用google search graph 来绘制相位变化曲线。
+</p>
+<p>
+火星的相位变化见下图。最大相位为1，发生在冲、合时。其中较尖锐的锋为冲，较钝的锋为合。最小相约为0.77。其波动周期就取决于地球与火星的合会周期。
+</p>
+
+<div class="figure">
+<p><img src="./img/mars_phase.png"  alt="./img/mars_phase.png" /></p>
+<p>火星的相位变化</p>
+</div>
+
+<p>
+木星的相变化为:
+</p>
+
+<div class="figure">
+<p><img src="./img/jupiter_phase.png"  alt="./img/jupiter_phase.png" /></p>
+<p>木星的相位变化</p>
+</div>
+
+<p>
+可见其相位都很大，最小值为0.94. 变化周期约为1年。
+</p>
+<p>
+对于更远的行星，土星, 天王星, 海王星，其相位变化范围更小:
+</p>
 <ul>
-<li><a href="#sec-1">Aug 2012</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-1" class="outline-2">
-<h2 id="sec-1">Aug 2012</h2>
-<div class="outline-text-2" id="text-1">
-
-<ul>
-<li><a href="PlanetPhase.html">行星的相位</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1/1.88))/(1.52-cos(2pi*x(1-1/1.88))))))/pi">火星</a>
 </li>
-<li><a href="PlanetInConjunctionWithStar.html">行星与恒星的合周期</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1/11.87))/(5.2-cos(2pi*x(1-1/11.87))))))/pi">木星</a>
 </li>
-<li><a href="OrgModeAndLiterateProgramming.html">org-mode 与 可重复报告</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1/29.53))/(9.55-cos(2pi*x(1-1/29.53))))))/pi">土星</a>
 </li>
-<li><a href="WhyUseOrgModeToWriteBlog.html">为什么用 org-mode 写 blog？</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1/84.55))/(19.26-cos(2pi*x(1-1/84.55))))))/pi">天王星</a>
+</li>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=(pi-abs(atan(sin(2pi*x(1-1/166.24))/(30.23-cos(2pi*x(1-1/166.24))))))/pi">海王星</a>
 </li>
 </ul>
 
-
-
-
-
-</div>
-</div>
 </div>
 
 <div id="postamble">

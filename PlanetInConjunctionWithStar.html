@@ -3,11 +3,11 @@
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Dayigu's Basket</title>
+<title>行星与恒星的合周期</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Dayigu's Basket"/>
+<meta name="title" content="行星与恒星的合周期"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-08-29 12:59:17 CST"/>
+<meta name="generated" content="2012-08-29 12:59:16 CST"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -93,41 +93,82 @@
 
 
 <div id="content">
-<h1 class="title">Dayigu's Basket</h1>
+<h1 class="title">行星与恒星的合周期</h1>
 
-<p>Welcome to Dayigu's basket!
+<p>行星与恒星相合是指从地球看过去，行星与该恒星在同一个方位，比如金星与昴星团相合。当然相合的条件首先是恒星位于太阳系行星运行的轨道平面上。那么某行星与某恒星相合的周期是多少呢? 
+</p>
+<p>
+假设行星的轨道都为圆，且与地球轨道在同一平面上. 行星与恒星相合的条件见下图(O为太阳，E是地球，M是行星，以火星为例，S是恒星的方向):(<a href="http://dayigu.github.com/planet_star_conjunction.html">动画</a>)
 </p>
 
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div class="figure">
+<p><img src="./img/planet_star_conjunction.png"  alt="./img/planet_star_conjunction.png" /></p>
+<p>行星与恒星相合的条件</p>
+</div>
+
+<p>
+假设在 t=0 时相合，经过 t 的时间再次相合，则 e-&gt;v 必须达到与 t＝0 相同的方向，即E和M的y坐标相同，且E在M的左侧. 因此得到相合的条件:
+</p>
+<p>
+且
+</p>
+<p>
+如果是地球内侧的行星，如金星，则后面的不等式要反号。
+</p>
+<p>
+该方程不好求解，因此把这两个等式和不等式的两项差值随时间的变化画出来(用 google 搜索直接可以画出曲线)。
+</p>
+<p>
+如以金星为例，a=0.72, 公转周期为0.62年。
+</p>
+
+<div class="figure">
+<p><img src="./img/venus_conjunction.png"  alt="./img/venus_conjunction.png" /></p>
+<p>金星与恒星的会合</p>
+</div>
+
+<p>
+当蓝色曲线经过x轴，且红色曲线在x轴上面时发生一次相合。因此平均每年内发生1次相合。但也可能某年内相合2次，接下来的1年内没有。
+</p>
+<p>
+火星(a=1.52, 公转周期1.88年)的曲线如下，蓝色曲线经过x轴，且红色曲线在x轴下面时相合，平均每2年1次(周期稍大于1／2, 如前26年发生14次)。
+</p>
+
+<div class="figure">
+<p><img src="./img/mars_conjunction.png"  alt="./img/mars_conjunction.png" /></p>
+<p>火星与恒星的会合</p>
+</div>
+
+<p>                                                                
+木星会合周期就更长了，基本上在木星的公转一周中，只有1次机会与其他恒星相合。但是由于木星的公转较慢，在发生相合的连续一两年内都处于相合的位置。
+</p>
+
+<div class="figure">
+<p><img src="./img/jupiter_conjunction.png"  alt="./img/jupiter_conjunction.png" /></p>
+<p>木星与恒星的会合</p>
+</div>
+
+<p>                                                                
+更外层行星与恒星的会合规律与木星相同，都是在公转一周中发生1次, 但每次会合的持续时间会比较长。
+</p>
+<p>
+以上的曲线都能用 google search graph 的功能直接画出:
+</p>
 <ul>
-<li><a href="#sec-1">Aug 2012</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-1" class="outline-2">
-<h2 id="sec-1">Aug 2012</h2>
-<div class="outline-text-2" id="text-1">
-
-<ul>
-<li><a href="PlanetPhase.html">行星的相位</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2pi*x)-0.72*sin(2pi*x/0.62),+cos(2pi*x)-0.72*cos(2pi*x/0.62)">金星</a>
 </li>
-<li><a href="PlanetInConjunctionWithStar.html">行星与恒星的合周期</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2*pi*x)-1.52*sin(2*pi*x/1.88),+cos(2pi*x)-1.52*cos(2pi*x/1.88)">火星</a>
 </li>
-<li><a href="OrgModeAndLiterateProgramming.html">org-mode 与 可重复报告</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2*pi*x)-5.20*sin(2*pi*x/11.87),+cos(2pi*x)-5.20*cos(2pi*x/11.87)">木星</a>
 </li>
-<li><a href="WhyUseOrgModeToWriteBlog.html">为什么用 org-mode 写 blog？</a>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2*pi*x)-9.55*sin(2*pi*x/29.53),+cos(2pi*x)-9.55*cos(2pi*x/29.53)">土星</a>
+</li>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2*pi*x)-19.26*sin(2*pi*x/84.55),+cos(2pi*x)-19.26*cos(2pi*x/84.55)">天王星</a>
+</li>
+<li><a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=sin(2*pi*x)-30.23*sin(2*pi*x/166.24),+cos(2pi*x)-30.23*cos(2pi*x/166.24)">海王星</a>
 </li>
 </ul>
 
-
-
-
-
-</div>
-</div>
 </div>
 
 <div id="postamble">
