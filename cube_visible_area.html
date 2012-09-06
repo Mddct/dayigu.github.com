@@ -3,11 +3,11 @@
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Sitemap</title>
+<title>立方体的随机可见面积</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Sitemap"/>
+<meta name="title" content="立方体的随机可见面积"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-09-07 00:10:08 CST"/>
+<meta name="generated" content="2012-09-06 14:38:56 CST"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -82,7 +82,47 @@
  }
 /*]]>*///-->
 </script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
 
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
 </head>
 <body>
 <div id="org-div-home-and-up" style="text-align:right;font-size:70%;white-space:nowrap;">
@@ -93,26 +133,56 @@
 
 
 <div id="content">
-<h1 class="title">Sitemap</h1>
+<h1 class="title">立方体的随机可见面积</h1>
 
-<ul>
-<li><a href="index.html">Dayigu's Basket</a>
+<p>工作中碰到的一个简单而有趣的几何问题：一个立方体在太空中随机滚动，那么它的平均受晒面积是多少？
+</p>
+<p>
+采取立方体不动，太阳光线从各个方向扫瞄的方法求平均值。
+</p>
+<p>
+假设立方体的 Z 轴冲上，XYZ三个面（只考虑这三个面受晒的情况）的法线方向为：
+</p><ul>
+<li>X: (0,0)
 </li>
-<li><a href="OrgModeAndLiterateProgramming.html">org-mode, “文学编程” , 自动化报告</a>
+<li>Y: (&pi;/2,0)
 </li>
-<li><a href="WhyUseOrgModeToWriteBlog.html">为什么用 org-mode 写 blog？</a>
-</li>
-<li><a href="cube_visible_area.html">立方体的随机可见面积</a>
-</li>
-<li><a href="PlanetInConjunctionWithStar.html">行星与恒星的合周期</a>
-</li>
-<li><a href="PlanetPhase.html">行星的相位</a>
-</li>
-<li><a href="PlanetApparentMotion.html">行星相对地球运动</a>
+<li>Z: (0,&pi;/2)
 </li>
 </ul>
 
-</div>
+
+<p>
+设太阳光线的方向来自 (&alpha;, &delta;).
+</p>
+<p>
+则各个面太阳入射角的余弦（即有效受光面积）为：
+</p><ul>
+<li>cos &theta;<sub>1</sub>=cos&alpha; cos&delta;
+</li>
+<li>cos &theta;<sub>2</sub>=sin&alpha; cos&delta;
+</li>
+<li>cos &theta;<sub>3</sub>=sin&delta;
+</li>
+</ul>
+
+
+<p>
+总的有效受晒面积就是：
+\begin{equation}
+A = \cos \alpha \cos\delta + \sin\alpha \cos\delta + \sin\delta
+\end{equation}
+
+求平均要在各个方向上做平均。太阳光是从各个方向均匀入射，可以认为是在球面上均匀入射的。根据对称性，对来自于 1/8 个半球面上的光线进行积分并平均，即得到随机平均的可见面积。即对 &alpha; 从 0 到 &pi;/4， 对 &delta; 从 0 到 &pi;/2 积分（注意对球面积分中有一个 cos &delta; ），并除以 1/8 半球面面积(1/4&pi;)：
+\begin{equation}
+\int_0^{\pi/4}\int_0^{\pi/2}(\cos \alpha \cos\delta + \sin\alpha \cos\delta + \sin\delta)\cos\delta \mathrm{d}\delta \mathrm{d}\alpha/(1/4 \pi)
+\end{equation}
+
+积分上式可得到随机受晒面积为 3/2. 即随机滚动时的受晒面积为立方体单个面的 1.5 倍。
+</p>
+<p>
+这个结果对不对呢？定性分析一下。最小受晒面积当然是垂直入射某个面时，为1；最大受晒面积可以通过对 A 求 &alpha; 和 &delta; 的偏导，令其为0求解得到，结果是 \(\sqrt{3}\) ，此时 \(\sin\delta = 1/\sqrt{3}\) , &alpha;=&pi;/4 ，也就是太阳光刚好穿过立方体相对的两个顶点的情况。平均值在 1 和 \(\sqrt{3}\) 之间，应该是对的吧。
+</p></div>
 
 <div id="postamble">
 <div id="disqus_thread"></div>
