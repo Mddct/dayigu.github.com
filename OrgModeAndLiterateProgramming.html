@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="org-mode, “文学编程” , 自动化报告"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-09-08 23:38:21 CST"/>
+<meta name="generated" content="2012-09-16 18:56:09 CST"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -234,7 +234,7 @@ Org-babel 对 python 程序支持两种运行模式：函数模式（functional 
 输出及返回的结果插入到代码段后面的 #+results 后。如果想在 export org 文件（如输出到 html，pdf）时包含程序的输出，则要加上头参数： exports
 </p>
 <p>
-函数模式的例子：
+函数模式的例子(<code>:exports results value</code>)：
 </p>
 
 
@@ -249,7 +249,7 @@ return a**4
 
 
 <p>
-脚本模式的例子，可以读写本地文件：
+脚本模式的例子，可以读写本地文件(<code>:results output :exports both</code>)：
 </p>
 
 
@@ -269,7 +269,7 @@ bye
 
 
 <p>
-注意到上面的 '3+2' 没有显示，这需要交互模式：
+注意到上面的 '3+2' 没有显示，这需要交互模式(<code>:results output :session :exports both</code>)：
 </p>
 
 

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Mountail Lion 上的 Python 科研环境的搭建</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="Mountail Lion 上的 Python 科研环境的搭建"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-09-16 18:56:17 CST"/>
+<meta name="author" content="dayigu"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style><link rel="stylesheet" type="text/css" href="css/worg.css"/>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+<div id="org-div-home-and-up" style="text-align:right;font-size:70%;white-space:nowrap;">
+ <a accesskey="h" href="sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div>
+
+
+<div id="content">
+<h1 class="title">Mountail Lion 上的 Python 科研环境的搭建</h1>
+
+<p>作为一个科研民工，Python 是我的重要生产工具。我常用的 Python 相关的库有：numpy、scipy、matplotlib、ipython 等。刚开始使用 Max OSX Lion 时，我直接用 macport 安装了这些工具，还算顺利。不过，macport 的包不算新，尤其是无法用上 ipython qtconsole。因此在升级到 mountain lion 后，决定重新搭建一个 python 的生产环境。
+</p>
+<p>
+主要参考了 <a href="http://www.thisisthegreenroom.com/2011/installing-python-numpy-scipy-matplotlib-and-ipython-on-lion/">http://www.thisisthegreenroom.com/2011/installing-python-numpy-scipy-matplotlib-and-ipython-on-lion/</a>.
+</p>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">准备工作</a></li>
+<li><a href="#sec-2">用 Homebrew 安装 Python</a></li>
+<li><a href="#sec-3">Numpy 和 scipy</a></li>
+<li><a href="#sec-4">matplotlib</a></li>
+<li><a href="#sec-5">ipython</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">准备工作</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+要全新安装 Python，要暂时将 macport 隔离，一方面要将环境变量中的 PATH 中的 macport 路径去除（~/.profile or ~/.bashrc），另外可暂时将 /opt/local 改名。
+</p>
+<p>
+将 xcode 升级到最新版。
+</p>
+<p>
+用 homebrew 安装所需的工具，gfortran 等。
+</p>
+<p>
+如果没有配置 Homebrew，用下面的命令进行配置：
+</p>
+
+
+<pre class="example">ruby &lt;(curl -fsSkL raw.github.com/mxcl/homebrew/go)
+</pre>
+
+
+<p>
+Homebrew 安装的软件都在 <i>usr/local</i> 下需要把该路径加到 PATH 变量中 (~/.profile or ~/.bashrc)，同时加入 /usr/local/share/python （用 Homebrew 安装的 Python 路径）：
+</p>
+
+
+<pre class="example">export PATH=/usr/local/share/python:/usr/local/bin:$PATH
+</pre>
+
+<p>
+修改 PATH 后最好重新打开终端（shell）以更新路径。
+</p>
+<p>
+<b>注意</b>: Homebrew 的安装目录默认是用户可写的，因此不需要 <code>sudo</code> 。
+</p>
+<p>
+安装 numpy、scipy 等需要 gfortran、swig、umfpack：
+</p>
+
+
+<pre class="example">brew install gfortran
+brew install swig
+brew install umfpack
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">用 Homebrew 安装 Python</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+mountain lion 自带的 Python 是 2.72，下面用 Homebrew 安装一个新的 Python 2.7.3
+</p>
+
+
+<pre class="example">brew install python --framework --universal
+</pre>
+
+
+<p>
+然后修改系统的 Python 版本：
+</p>
+
+
+<pre class="example">cd /System/Library/Frameworks/Python.framework/Versions
+sudo rm Current
+sudo ln -s /usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/Current
+</pre>
+
+
+<p>
+此后的 Python 包都尽量用 pip 进行安装和管理。安装好的 Python 自带了一个 pip，其版本是 1.2，如果想用更新一点的，用 <code>easy_install</code> 新安装一个 1.21 版(pip 无法安装自己)：
+</p>
+
+
+<pre class="example">easy_install pip
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">Numpy 和 scipy</h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+先用 pip 安装 numpy：
+</p>
+
+
+<pre class="example">pip install numpy
+</pre>
+
+
+<p>
+查看 numpy 的版本和路径：
+</p>
+
+
+<pre class="example">import numpy
+print numpy.__version__
+print numpy.__file__
+</pre>
+
+
+<pre class="example">
+1.6.2
+/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/__init__.pyc
+</pre>
+
+
+<p>
+scipy 的安装相对要麻烦一些。mountain lion 下直接 <code>pip install scipy</code> 有问题，相关的问题在 scipy 的git 版本中已经得到修正，因此要用下面的命令安装 github 上的 dev 版本：
+</p>
+
+
+<pre class="example">pip install -e git+https://github.com/scipy/scipy#egg=scipy-dev
+</pre>
+
+
+<p>
+这时可能会出现下面的错误：
+</p>
+
+
+<pre class="example">numpy.distutils.npy_pkg_config.PkgNotFound: Could not find file(s) ['/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/core/lib/npy-pkg-config/npymath.ini']
+</pre>
+
+
+<p>
+我的解决方法是，重新下载一个 numpy 的源码（版本和前面安装的相同），解开后进行 build：
+</p>
+
+
+<pre class="example">python setup.py build 
+</pre>
+
+
+<p>
+在 build 目录下面的src.macosx-10.8-intel-2.7/numpy/core/lib/npy-pkg-config/ 下能找到这个文件 npymath.ini，把这个 npy-pkg-config 目录都 copy 到 <i>usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/core/lib</i> 下面，继续前面的安装，就能够克服这个问题。但在编译的最后，发现无法找到 libnpymath 库，这个库可以在 build 目录下的 temp.macosx-10.8-intel-2.7 里找到 libnpymath.a ，同样把它 copy 到 上面的 core/lib 目录下，继续 pip 就成功了。
+</p>
+<p>
+检查 scipy 的版本：
+</p>
+
+
+<pre class="example">import scipy
+print scipy.__version__
+print scipy.__file__
+</pre>
+
+
+<pre class="example">
+0.12.0.dev-5c40ff8
+/Users/xxh/src/scipy/scipy/__init__.pyc
+</pre>
+
+
+<p>
+可见编译的 dev 版本没有把文件都复制到 <i>usr/local</i>&hellip; 下，而是保留在原地，在 <code>/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages</code> 下放了个 <code>scipy.egg-link</code> 。
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4">matplotlib</h2>
+<div class="outline-text-2" id="text-4">
+
+
+<p>
+那个参考的文档同样建议 mountain lion 用户安装 git版本：
+</p>
+
+
+<pre class="example">pip install git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib-dev
+</pre>
+
+
+<p>
+安装顺利，检查版本：
+</p>
+
+
+<pre class="example">import matplotlib
+print matplotlib.__version__
+print matplotlib.__file__
+</pre>
+
+
+<pre class="example">
+1.3.x
+/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/matplotlib/__init__.pyc
+</pre>
+
+
+<p>
+画个简单的曲线测试一下：
+</p>
+
+
+<pre class="example">import numpy as np
+import matplotlib.pyplot as plt
+x=np.linspace(0, 2*np.pi, 50)
+y = np.sin(x)
+plt.plot(x,y)
+plt.savefig('img/matplotlib_test_sinx.png')
+</pre>
+
+
+<p>
+<img src="./img/matplotlib_test_sinx.png"  alt="./img/matplotlib_test_sinx.png" />
+</p>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5">ipython</h2>
+<div class="outline-text-2" id="text-5">
+
+
+
+
+
+<pre class="example">pip install ipython
+</pre>
+
+
+<p>
+这就可以用 ipython 了。但要想使用惊艳的 inline image 功能的 ipython，首先要从安装 QT lib 开始。
+</p>
+<p>
+从 <a href="http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x">http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x</a> 下载 Qt lib for mac, 安装。
+</p>
+<p>
+然后用 Homebrew 安装 pyqt 和 zmq：
+</p>
+
+
+<pre class="example">brew install pyqt
+brew install zmq
+</pre>
+
+
+<p>
+再用 pip 安装 pyzmq 和 pygments
+</p>
+
+
+<pre class="example">pip install pyzmq
+pip install pygments
+</pre>
+
+
+<p>
+现在就可以用 ipython qtconsole 了：
+</p>
+
+
+<pre class="example">ipython qtconsole --pylab=inline
+</pre>
+
+
+<p>
+ipython qtconsole 支持多行编辑和页内显示图片：
+</p>
+<p>
+<img src="./img/ipython_qtconsole_inline_display.png"  alt="./img/ipython_qtconsole_inline_display.png" />
+</p></div>
+</div>
+</div>
+
+<div id="postamble">
+<div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'dayigubasket'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+</body>
+</html>
