@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="Mountail Lion 上的 Python 科研环境的搭建"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-09-16 18:56:17 CST"/>
+<meta name="generated" content="2012-10-24 22:33:52 CST"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -110,6 +110,7 @@
 <li><a href="#sec-3">Numpy 和 scipy</a></li>
 <li><a href="#sec-4">matplotlib</a></li>
 <li><a href="#sec-5">ipython</a></li>
+<li><a href="#sec-6">FiPy</a></li>
 </ul>
 </div>
 </div>
@@ -395,7 +396,35 @@ ipython qtconsole 支持多行编辑和页内显示图片：
 </p>
 <p>
 <img src="./img/ipython_qtconsole_inline_display.png"  alt="./img/ipython_qtconsole_inline_display.png" />
-</p></div>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6">FiPy</h2>
+<div class="outline-text-2" id="text-6">
+
+
+<p>
+FiPy 是用 Python 开发的一个偏微分方程求解器，采用的是有限容积法。直接用 pip 安装即可。不过要首先安装 pysparse。pysparse 是一个稀疏矩阵求解器，是 FiPy 默认采用的求解器。不过我用 pip 安装 pysparse 时出现错误，幸好还有一个 csc-pysparse（是 mit 的一个分支，目的就是使得 pip 能够安装）：
+</p>
+
+
+<pre class="example">pip install csc-pysparse
+pip install fipy
+</pre>
+
+
+
+<pre class="example">import pysparse
+print pysparse.__version__
+import fipy
+print fipy.__version__
+</pre>
+
+
+</div>
 </div>
 </div>
 

@@ -2,11 +2,11 @@
 {
   body {
     font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;
-    font-size: 14px;
-    line-height: 21px;
+    font-size: 18px;
+    line-height: 32px;
     color: #333;
 
-    max-width: 95%;
+    max-width: 80%;
     margin: auto;
     background-image: url(http://orgmode.org/worg-unicorn.png);
     background-position: 25px 5px;
