@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="Mountail Lion 上的 Python 科研环境的搭建"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-10-24 22:33:52 CST"/>
+<meta name="generated" content="2013-12-29"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -61,6 +61,30 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="css/worg.css"/>
 <script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 <!--/*--><![CDATA[/*><!--*/
  function CodeHighlightOn(elem, id)
  {
@@ -95,7 +119,13 @@
 <div id="content">
 <h1 class="title">Mountail Lion 上的 Python 科研环境的搭建</h1>
 
-<p>作为一个科研民工，Python 是我的重要生产工具。我常用的 Python 相关的库有：numpy、scipy、matplotlib、ipython 等。刚开始使用 Max OSX Lion 时，我直接用 macport 安装了这些工具，还算顺利。不过，macport 的包不算新，尤其是无法用上 ipython qtconsole。因此在升级到 mountain lion 后，决定重新搭建一个 python 的生产环境。
+<p> = modified on 2013-12-29=
+</p>
+<p>
+作为一个科研民工，Python 是我的重要生产工具。我常用的 Python 相关的库有：numpy、scipy、matplotlib、ipython 等。刚开始使用 Max OSX Lion 时，我直接用 macport 安装了这些工具，还算顺利。不过，macport 的包不算新，尤其是无法用上 ipython qtconsole。因此在升级到 mountain lion 后，决定重新搭建一个 python 的生产环境。
+</p>
+<p>
+2013-12 月，更新到了 rmbp 15'，系统为 10.9.1
 </p>
 <p>
 主要参考了 <a href="http://www.thisisthegreenroom.com/2011/installing-python-numpy-scipy-matplotlib-and-ipython-on-lion/">http://www.thisisthegreenroom.com/2011/installing-python-numpy-scipy-matplotlib-and-ipython-on-lion/</a>.
@@ -121,7 +151,7 @@
 
 
 <p>
-要全新安装 Python，要暂时将 macport 隔离，一方面要将环境变量中的 PATH 中的 macport 路径去除（~/.profile or ~/.bashrc），另外可暂时将 /opt/local 改名。
+采用 homebrew 安装 python 以及必要的库。
 </p>
 <p>
 将 xcode 升级到最新版。
@@ -139,11 +169,11 @@
 
 
 <p>
-Homebrew 安装的软件都在 <i>usr/local</i> 下需要把该路径加到 PATH 变量中 (~/.profile or ~/.bashrc)，同时加入 /usr/local/share/python （用 Homebrew 安装的 Python 路径）：
+Homebrew 安装的软件都在 <i>usr/local</i> 下需要把该路径加到 PATH 变量中 (~/.profile or ~/.bashrc)，=而且要放在 /usr/bin 之前，确保使用homebrew 安装的python，而不是系统自带的（/usr/bin/python）。
 </p>
 
 
-<pre class="example">export PATH=/usr/local/share/python:/usr/local/bin:$PATH
+<pre class="example">export PATH=/usr/local/bin:$PATH
 </pre>
 
 <p>
@@ -172,9 +202,7 @@ brew install umfpack
 <div class="outline-text-2" id="text-2">
 
 
-<p>
-mountain lion 自带的 Python 是 2.72，下面用 Homebrew 安装一个新的 Python 2.7.3
-</p>
+
 
 
 <pre class="example">brew install python --framework --universal
@@ -182,16 +210,8 @@ mountain lion 自带的 Python 是 2.72，下面用 Homebrew 安装一个新的 
 
 
 <p>
-然后修改系统的 Python 版本：
+运行 python，看是否已经是最新版本了。
 </p>
-
-
-<pre class="example">cd /System/Library/Frameworks/Python.framework/Versions
-sudo rm Current
-sudo ln -s /usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/Current
-</pre>
-
-
 <p>
 此后的 Python 包都尽量用 pip 进行安装和管理。安装好的 Python 自带了一个 pip，其版本是 1.2，如果想用更新一点的，用 <code>easy_install</code> 新安装一个 1.21 版(pip 无法安装自己)：
 </p>
@@ -216,76 +236,33 @@ sudo ln -s /usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/C
 
 
 <pre class="example">pip install numpy
+pip install scipy
 </pre>
 
 
 <p>
-查看 numpy 的版本和路径：
+查看 numpy 和 scipy 的版本和路径：
 </p>
 
 
 <pre class="example">import numpy
 print numpy.__version__
 print numpy.__file__
-</pre>
-
-
-<pre class="example">
-1.6.2
-/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/__init__.pyc
-</pre>
-
-
-<p>
-scipy 的安装相对要麻烦一些。mountain lion 下直接 <code>pip install scipy</code> 有问题，相关的问题在 scipy 的git 版本中已经得到修正，因此要用下面的命令安装 github 上的 dev 版本：
-</p>
-
-
-<pre class="example">pip install -e git+https://github.com/scipy/scipy#egg=scipy-dev
-</pre>
-
-
-<p>
-这时可能会出现下面的错误：
-</p>
-
-
-<pre class="example">numpy.distutils.npy_pkg_config.PkgNotFound: Could not find file(s) ['/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/core/lib/npy-pkg-config/npymath.ini']
-</pre>
-
-
-<p>
-我的解决方法是，重新下载一个 numpy 的源码（版本和前面安装的相同），解开后进行 build：
-</p>
-
-
-<pre class="example">python setup.py build 
-</pre>
-
-
-<p>
-在 build 目录下面的src.macosx-10.8-intel-2.7/numpy/core/lib/npy-pkg-config/ 下能找到这个文件 npymath.ini，把这个 npy-pkg-config 目录都 copy 到 <i>usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/core/lib</i> 下面，继续前面的安装，就能够克服这个问题。但在编译的最后，发现无法找到 libnpymath 库，这个库可以在 build 目录下的 temp.macosx-10.8-intel-2.7 里找到 libnpymath.a ，同样把它 copy 到 上面的 core/lib 目录下，继续 pip 就成功了。
-</p>
-<p>
-检查 scipy 的版本：
-</p>
-
-
-<pre class="example">import scipy
+import scipy
 print scipy.__version__
 print scipy.__file__
 </pre>
 
 
 <pre class="example">
-0.12.0.dev-5c40ff8
-/Users/xxh/src/scipy/scipy/__init__.pyc
+1.8.0
+/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/__init__.pyc
+0.13.2
+/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/scipy/__init__.pyc
 </pre>
 
 
-<p>
-可见编译的 dev 版本没有把文件都复制到 <i>usr/local</i>&hellip; 下，而是保留在原地，在 <code>/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages</code> 下放了个 <code>scipy.egg-link</code> 。
-</p>
+
 </div>
 
 </div>
@@ -296,11 +273,11 @@ print scipy.__file__
 
 
 <p>
-那个参考的文档同样建议 mountain lion 用户安装 git版本：
+仍然是 pip 安装
 </p>
 
 
-<pre class="example">pip install git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib-dev
+<pre class="example">pip install matplotlib
 </pre>
 
 
@@ -316,8 +293,8 @@ print matplotlib.__file__
 
 
 <pre class="example">
-1.3.x
-/usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/matplotlib/__init__.pyc
+1.3.1
+/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/matplotlib/__init__.pyc
 </pre>
 
 
@@ -331,7 +308,8 @@ import matplotlib.pyplot as plt
 x=np.linspace(0, 2*np.pi, 50)
 y = np.sin(x)
 plt.plot(x,y)
-plt.savefig('img/matplotlib_test_sinx.png')
+plt.plot(np.random.randn(500),np.random.rand(500),'o')
+plt.savefig('img/matplotlib_test_sinx.png', dpi=72)
 </pre>
 
 
@@ -367,7 +345,8 @@ plt.savefig('img/matplotlib_test_sinx.png')
 </p>
 
 
-<pre class="example">brew install pyqt
+<pre class="example">brew install qt
+brew install pyqt
 brew install zmq
 </pre>
 
@@ -378,7 +357,7 @@ brew install zmq
 
 
 <pre class="example">pip install pyzmq
-pip install pygments
+pip install Pygments
 </pre>
 
 
