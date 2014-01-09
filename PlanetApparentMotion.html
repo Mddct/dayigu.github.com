@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="行星相对地球的运动：相对轨迹和视轨迹"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2014-01-09T23:29+0800"/>
+<meta name="generated" content="2014-01-10T00:04+0800"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -278,37 +278,18 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 
-def pos(r,i,a,b):
-    """ """
-    i *= pi/180.
-    a *= pi/180.
-    b *= pi/180.
-    xe = cos(a)
-    ye = sin(a)
-    ze = 0.
-    xm = r*cos(b)
-    ym = r*sin(b)*cos(i)
-    zm = r*sin(i)*sin(b)
-    return xm-xe, ym-ye, zm-ze
-
-def trace(r, i, t, n):
-    """ """
-    x = [0]*(n*360)
-    y = [0]*(n*360)
-    z = [0]*(n*360)
-    for a in xrange(n*360):
-        b = a/t
-        x[a],y[a],z[a] = pos(r,i,a,b)
-    return x,y,z
-
 def plot_trace(r,i,t,n,name='planet'):
     """ """
+    i *= pi/180.
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-
-    x,y,z=trace(r,i,t,n)
+    a = np.array(range(n*360))*pi/180
+    b = a/t
+    x = r*np.cos(b) - np.cos(a)
+    y = r*np.sin(b)*cos(i) - np.sin(a)
+    z = r*np.sin(b)*sin(i)
     ax.plot(x,y,z, 'r')
-    ax.set_zlim(-r*sin(i*pi/180)*1.5, max(0.1,r*sin(i*pi/180)*1.5))
+    ax.set_zlim(-r*sin(i)*1.5, max(0.1,r*sin(i)*1.5))
     ax.plot([0],[0],[0],'bo')
     title = '%s: a=%.2f, i=%.2f, t=%.2f, n=%d'%(name,r,i,t,n)
     ax.text2D(0.05, 0.95, title, transform=ax.transAxes)
@@ -440,34 +421,9 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 
-def orient(r,i,a,b):
-    """ """
-    i *= pi/180.
-    a *= pi/180.
-    b *= pi/180.
-    xe = cos(a)
-    ye = sin(a)
-    ze = 0.
-    xm = r*cos(b)
-    ym = r*sin(b)*cos(i)
-    zm = r*sin(i)*sin(b)
-    rem = ((xe-xm)**2+(ye-ym)**2+zm**2)**0.5
-    theta = asin(zm/rem)
-    phi = atan2(ym-ye,xm-xe)
-    return phi,theta # phi*180/pi,theta*180/pi
-
-def trace(r, i, t, n):
-    """ """
-    theta = [0]*(n*360)
-    phi = [0]*(n*360)
-    for a in xrange(n*360):
-        b = a/t
-        phi[a],theta[a] = orient(r,i,a,b)
-
-    return phi,theta
-
 def plot_trace(r,i,t,n,name='planet', out=None, show_sphere=True):
     """ """
+    i *= pi/180
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
@@ -479,7 +435,16 @@ def plot_trace(r,i,t,n,name='planet', out=None, show_sphere=True):
         z = 10 * np.outer(np.ones(np.size(u)), np.cos(v))
         ax.plot_wireframe(x, y, z,  rstride=6, cstride=6, color='#a0a0a0')
 
-    phi,theta=trace(r,i,t,n)
+    a = np.array(range(n*360))*pi/180
+    b = a/t
+    xe = np.cos(a)
+    ye = np.sin(a)
+    xm = r*np.cos(b)
+    ym = r*np.sin(b)*cos(i)
+    zm = r*sin(i)*np.sin(b)
+    rem = ((xe-xm)**2+(ye-ym)**2+zm**2)**0.5
+    theta = np.arcsin(zm/rem)
+    phi = np.arctan2(ym-ye,xm-xe)
     x = 10*np.cos(theta)*np.cos(phi)
     y = 10*np.cos(theta)*np.sin(phi)
     z = 10*np.sin(theta)
