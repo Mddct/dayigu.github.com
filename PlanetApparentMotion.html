@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="行星相对地球的运动：相对轨迹和视轨迹"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2014-01-09T17:09+0800"/>
+<meta name="generated" content="2014-01-09T23:29+0800"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -209,10 +209,10 @@ for the JavaScript code below.
 <div id="content">
 <h1 class="title">行星相对地球的运动：相对轨迹和视轨迹</h1>
 
-<p>『地心说』给出的其它行星的轨道就是相对于地球的轨道，是什么样的呢？简单的说是一个大圆上套一个小圆。
+<p>『地心说』给出的其它行星的轨道就是相对于地球的轨道，是什么样的呢？『地心说』给出的轨道是一个大圆上套一个小圆。实际上呢？由于行星并不完全在一个平面内运行，而是与黄道有个夹角（倾角），轨道就不是二维的，而是三维的。
 </p>
 <p>
-从地球上看其他行星的轨迹（在天球上的投影）是什么样的呢？由于行星并不完全在一个平面内运行，而是与黄道有个夹角，这会导致行星的视运动不完全是一个圆。
+从地球上看其他行星的轨迹（在天球上的投影）是什么样的呢？就是个圆吗？同样由于行星轨道面与黄道的夹角，导致行星的视运动不完全是一个圆。
 </p>
 
 <div id="table-of-contents">
@@ -256,10 +256,20 @@ M: x_M = r\cos\beta, y_M=r\sin\beta\cos i, z_M=r\sin\beta \sin i
 \tan\varphi = \frac{y_M-y_E}{x_M-x_E}
 \end{equation}
 
-&theta; 和 \varphi 就是 M 在地心黄道坐标系中的经度和纬度，根据这两个值就能画出行星相对地球的视轨迹。而根据 \varphi 和距离 |ME| 就能得到相对轨道。
+&theta; 和 \varphi 就是 M 在地心黄道坐标系中的经度和纬度，根据这两个值就能画出行星相对地球的视轨迹。而根据 M 和 E 的座标就能得到相对轨道。
 </p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">各大行星的相对轨道</h2>
+<div class="outline-text-2" id="text-2">
+
+
+
 <p>
-绘制轨迹的 python 代码：
+绘制相对轨道的 python 代码：
 </p>
 
 
@@ -268,7 +278,169 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 
-def orientation(r,i,a,b):
+def pos(r,i,a,b):
+    """ """
+    i *= pi/180.
+    a *= pi/180.
+    b *= pi/180.
+    xe = cos(a)
+    ye = sin(a)
+    ze = 0.
+    xm = r*cos(b)
+    ym = r*sin(b)*cos(i)
+    zm = r*sin(i)*sin(b)
+    return xm-xe, ym-ye, zm-ze
+
+def trace(r, i, t, n):
+    """ """
+    x = [0]*(n*360)
+    y = [0]*(n*360)
+    z = [0]*(n*360)
+    for a in xrange(n*360):
+        b = a/t
+        x[a],y[a],z[a] = pos(r,i,a,b)
+    return x,y,z
+
+def plot_trace(r,i,t,n,name='planet'):
+    """ """
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    x,y,z=trace(r,i,t,n)
+    ax.plot(x,y,z, 'r')
+    ax.set_zlim(-r*sin(i*pi/180)*1.5, max(0.1,r*sin(i*pi/180)*1.5))
+    ax.plot([0],[0],[0],'bo')
+    title = '%s: a=%.2f, i=%.2f, t=%.2f, n=%d'%(name,r,i,t,n)
+    ax.text2D(0.05, 0.95, title, transform=ax.transAxes)
+    plt.savefig('img/%s_orbit_3d.png')
+
+    fig=plt.figure(figsize=[6,5.1])
+    plt.plot(x,y)
+    plt.plot([0],[0],'bo')
+    plt.title(title)
+    plt.savefig('img/%s_orbit.png')
+
+def all_orbit():
+    plot_trace(0.387,7.0,0.24,6,'Mercury')
+    plot_trace(0.723,3.4,0.63,18,'Venus')
+    plot_trace(1.52,1.85,1.88,15,'Mars')
+    plot_trace(5.2,1.3,11.86,25,'Jupiter')
+    plot_trace(9.54,2.49,29.46,30,'Saturn')
+    plot_trace(19.19,0.77,84.0,90,'Uranus')
+    plot_trace(30.,1.77,164.8,170,'Neptune')
+
+all_orbit()
+
+</pre>
+
+
+<p>
+得到各大行星相对地球的轨道。一个是三维空间中的轨迹，但在 z 方向故意放大，以看出在 z 方向上的波动；另外的二维图是轨迹在黄道面上的投影。
+</p>
+<div class="figure">
+<p><img src="./img/Mercury_orbit.png"  alt="./img/Mercury_orbit.png" /></p>
+<p>水星相对地球的轨道</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Mercury_orbit_3d.png"  alt="./img/Mercury_orbit_3d.png" /></p>
+<p>水星相对地球的轨道 3D</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Venus_orbit.png"  alt="./img/Venus_orbit.png" /></p>
+<p>金星相对地球的轨道</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Venus_orbit_3d.png"  alt="./img/Venus_orbit_3d.png" /></p>
+<p>金星相对地球的轨道 3D</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Mars_orbit.png"  alt="./img/Mars_orbit.png" /></p>
+<p>火星相对地球的轨道</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Mars_orbit_3d.png"  alt="./img/Mars_orbit_3d.png" /></p>
+<p>火星相对地球的轨道 3D</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Jupiter_orbit.png"  alt="./img/Jupiter_orbit.png" /></p>
+<p>木星相对地球的轨道</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Jupiter_orbit_3d.png"  alt="./img/Jupiter_orbit_3d.png" /></p>
+<p>木星相对地球的轨道 3D</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Saturn_orbit.png"  alt="./img/Saturn_orbit.png" /></p>
+<p>土星相对地球的轨道</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Saturn_orbit_3d.png"  alt="./img/Saturn_orbit_3d.png" /></p>
+<p>土星相对地球的轨道 3D</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Uranus_orbit.png"  alt="./img/Uranus_orbit.png" /></p>
+<p>天王星相对地球的轨道</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Uranus_orbit_3d.png"  alt="./img/Uranus_orbit_3d.png" /></p>
+<p>天王星相对地球的轨道 3D</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Neptune_orbit.png"  alt="./img/Neptune_orbit.png" /></p>
+<p>海王星相对地球的轨道</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/Neptune_orbit_3d.png"  alt="./img/Neptune_orbit_3d.png" /></p>
+<p>海王星相对地球的轨道 3D</p>
+</div>
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">各大行星的相对视轨迹</h2>
+<div class="outline-text-2" id="text-3">
+
+
+
+<p>
+绘制视轨迹的 python 代码：
+</p>
+
+
+<pre class="example">from math import sin, cos, asin, atan2, pi
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+
+def orient(r,i,a,b):
     """ """
     i *= pi/180.
     a *= pi/180.
@@ -282,18 +454,17 @@ def orientation(r,i,a,b):
     rem = ((xe-xm)**2+(ye-ym)**2+zm**2)**0.5
     theta = asin(zm/rem)
     phi = atan2(ym-ye,xm-xe)
-    return phi,theta,rem # phi*180/pi,theta*180/pi
+    return phi,theta # phi*180/pi,theta*180/pi
 
 def trace(r, i, t, n):
     """ """
     theta = [0]*(n*360)
     phi = [0]*(n*360)
-    rem = [0]*(n*360)
     for a in xrange(n*360):
         b = a/t
-        phi[a],theta[a],rem[a] = orientation(r,i,a,b)
+        phi[a],theta[a] = orient(r,i,a,b)
 
-    return phi,theta,rem
+    return phi,theta
 
 def plot_trace(r,i,t,n,name='planet', out=None, show_sphere=True):
     """ """
@@ -308,7 +479,7 @@ def plot_trace(r,i,t,n,name='planet', out=None, show_sphere=True):
         z = 10 * np.outer(np.ones(np.size(u)), np.cos(v))
         ax.plot_wireframe(x, y, z,  rstride=6, cstride=6, color='#a0a0a0')
 
-    phi,theta,rem=trace(r,i,t,n)
+    phi,theta=trace(r,i,t,n)
     x = 10*np.cos(theta)*np.cos(phi)
     y = 10*np.cos(theta)*np.sin(phi)
     z = 10*np.sin(theta)
@@ -330,91 +501,9 @@ def all_trace():
     plot_trace(19.19,0.77,84.0,90,'Uranus','img/Uranus_motion.png')
     plot_trace(30.,1.77,164.8,180,'Neptune','img/Neptune_motion.png')
 
-def plot_orbit(r,i,t,n,name='planet'):
-    fig = plt.figure(figsize=[8,6.9])
-    phi,theta,rem=trace(r,i,t,n)
-    x = np.array(rem)*np.cos(phi)
-    y = np.array(rem)*np.sin(phi)
-    plt.plot(x,y,label=name)
-    plt.plot([0],[0],'bo')
-    title = '%s: a=%.2f, i=%.2f, t=%.2f, n=%d'%(name,r,i,t,n)
-    plt.title(title)
-    plt.savefig('img/%s_orbit.png')
-
-def all_orbit():
-    plot_orbit(0.387,7.0,0.24,6,'Mercury')
-    plot_orbit(0.723,3.4,0.63,18,'Venus')
-    plot_orbit(1.52,1.85,1.88,15,'Mars')
-    plot_orbit(5.2,1.3,11.86,25,'Jupiter')
-    plot_orbit(9.54,2.49,29.46,30,'Saturn')
-    plot_orbit(19.19,0.77,84.0,90,'Uranus')
-    plot_orbit(30.,1.77,164.8,170,'Neptune')
-
-all_orbit()
 all_trace()
 </pre>
 
-
-</div>
-
-</div>
-
-<div id="outline-container-2" class="outline-2">
-<h2 id="sec-2">各大行星的相对轨道</h2>
-<div class="outline-text-2" id="text-2">
-
-
-<p>
-得到各大行星相对地球的轨道如下：
-</p>
-<div class="figure">
-<p><img src="./img/Mercury_orbit.png"  alt="./img/Mercury_orbit.png" /></p>
-<p>水星相对地球的轨道</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/Venus_orbit.png"  alt="./img/Venus_orbit.png" /></p>
-<p>金星相对地球的轨道</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/Mars_orbit.png"  alt="./img/Mars_orbit.png" /></p>
-<p>火星相对地球的轨道</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/Jupiter_orbit.png"  alt="./img/Jupiter_orbit.png" /></p>
-<p>木星相对地球的轨道</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/Saturn_orbit.png"  alt="./img/Saturn_orbit.png" /></p>
-<p>土星相对地球的轨道</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/Uranus_orbit.png"  alt="./img/Uranus_orbit.png" /></p>
-<p>天王星相对地球的轨道</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/Neptune_orbit.png"  alt="./img/Neptune_orbit.png" /></p>
-<p>海王星相对地球的轨道</p>
-</div>
-
-</div>
-
-</div>
-
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3">各大行星的相对视轨迹</h2>
-<div class="outline-text-2" id="text-3">
 
 
 <p>
