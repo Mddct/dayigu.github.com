@@ -3,11 +3,11 @@
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Dayigu's Basket</title>
+<title>通过计算机串口控制相机快门</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Dayigu's Basket"/>
+<meta name="title" content="通过计算机串口控制相机快门"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2014-03-10T21:10+0800"/>
+<meta name="generated" content="2014-03-10T21:12+0800"/>
 <meta name="author" content="dayigu"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -117,85 +117,97 @@ for the JavaScript code in this tag.
 
 
 <div id="content">
-<h1 class="title">Dayigu's Basket</h1>
+<h1 class="title">通过计算机串口控制相机快门</h1>
 
-<p>Welcome to Dayigu's basket!
+<p>要做的一个实验中需要控制相机（Canon 单反 550d）每隔一定的时间自动拍照。靠人工按快门、快门线显然都不是可行的方式。利用计算机程序控制是最佳途径。网络搜索很快发现了解决方案：搭建一个简单的电路连接串口和相机快门接口，通过程序写串口状态来开启相机快门。
 </p>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1">Mar 2014</h2>
+<h2 id="sec-1">硬件：电路</h2>
 <div class="outline-text-2" id="text-1">
 
 
-<ul>
-<li><a href="ControlCameraShutter.html">通过计算机串口控制相机快门</a>
+<p>
+最初搜索到的实现方案来自『天之文天文论坛』[http://bbs.astron.ac.cn/thread-3582-1-1.html] ，随后又找到国外天文网站给出的方案 <a href="http://www.beskeen.com/projects/dslr_serial/dslr_serial.shtml">http://www.beskeen.com/projects/dslr_serial/dslr_serial.shtml</a> 。这两个方案基本相同，电路见下图。
+</p>
+<p>
+<img src="./img/rs232switch.png"  alt="./img/rs232switch.png" />
+</p>
+<p>
+因此需要准备的元件有：
+</p><ul>
+<li>9针串口接头
+</li>
+<li>47 KΩ，1/4 W 电阻
+</li>
+<li>1n4001 二极管
+</li>
+<li>2n3904 三极管
+</li>
+<li>2.5mm耳机插头
 </li>
 </ul>
 
 
+<p>
+原理非常简单：Canon 相机预留了快门插孔（2.5mm耳机插孔），只要将耳机插头对应的1、3（底端和头部）接通，相机就启动快门拍照。接通时，电流从3流向1，即3的电位高于1。该电路的作用就是控制这两端的接通。根据三极管的原理，当 B 极电位高于 C，有电流从 B 流向 C 时，会有更大的电流从 E 流向 C，从而使快门插孔的 3 和 1 导通；反过来，当 B 电位低于 C 时，1 和 3 就无法导通。B 和 C 的电位高低由 串口的第 7 针（RTS）相对于第 5 针（GND）的电位高低决定。因此可以通过控制串口 RTS 端的状态实现快门的导通和断开。
+</p>
+<p>
+电路中的 电阻和二极管的作用是限流和限压，当 B、C端的电压高于二极管的击穿电压时，二极管反向导通，从而保护三极管。
+</p>
+<p>
+现在多数笔记本电脑都没有串口，连很多台式机也没有串口，此时需要用一根 RS232转USB的转接线。
+</p>
 </div>
 
 </div>
 
 <div id="outline-container-2" class="outline-2">
-<h2 id="sec-2">Oct 2012</h2>
+<h2 id="sec-2">软件：程序</h2>
 <div class="outline-text-2" id="text-2">
 
 
-<ul>
-<li><a href="LunarSurfaceTemperature.html">月球表面温度</a>
-</li>
-</ul>
+<p>
+硬件搭好后，要通过软件控制串口的输出。这个控制非常简单，就是改变串口 RTS 端的状态，很多的编程软件都很容易实现。因为对 Python 较熟悉，就用 Python 完成该试验。
+</p>
+<p>
+为方便，可以采用一个现成的串口封装包 <a href="http://pyserial.sourceforge.net">pySerial</a>, 下载后安装（python setup.py install），然后在 Python 中 import，并打开相应的串口：
+</p>
 
 
-</div>
-
-</div>
-
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3">Sep 2012</h2>
-<div class="outline-text-2" id="text-3">
+<pre class="example">&gt;&gt;&gt; import serial
+&gt;&gt;&gt; c = serial.Serial(2)
+&gt;&gt;&gt;
+</pre>
 
 
-<ul>
-<li><a href="PythonInstallOnMac.html">Mountain Lion 上的 Python 科研环境搭建</a>
-</li>
-<li><a href="SolarTime.html">平太阳时和真太阳时</a>
-</li>
-<li><a href="SolarApparentMotion.html">太阳的周年视运动</a>
-</li>
-<li><a href="PlanetApparentMotion.html">行星相对地球的运动轨迹</a>
-</li>
-<li>简单有趣的数学题： <a href="cube_visible_area.html">立方体的随机可见面积</a>
-</li>
-</ul>
+<p>
+要先确认所用的串口序号（从设备管理器中查看），如果是 COM2，表示第二个 COM 口，则在 Python 中打开时采用的序号为 1（serial.Serial(1), 这里从0开始）。
+</p>
+<p>
+要开启快门，需要将串口的 RTS 端从 False状态（低电平）改变为 True状态（高电平），然后再变回 False（不要长时间导通，以备下次开启）。但不能立刻从 True 变为 Fasle，变化太快会导致相机无法监测到。一个简单的开启快门程序为：
+</p>
 
 
-</div>
+<pre class="example">import serial
+import time
+c = serial.Serial(2)
+def sht():
+    c.setRTS(True)
+    time.sleep(1)
+    c.setRTS(False)
 
-</div>
+sht()
 
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4">Aug 2012</h2>
-<div class="outline-text-2" id="text-4">
-
-<ul>
-<li><a href="PlanetPhase.html">行星的相位</a>
-</li>
-<li><a href="PlanetInConjunctionWithStar.html">行星与恒星的合周期</a>
-</li>
-<li><a href="OrgModeAndLiterateProgramming.html">org-mode 与 可重复报告</a>
-</li>
-<li><a href="WhyUseOrgModeToWriteBlog.html">为什么用 org-mode 写 blog？</a>
-</li>
-</ul>
+</pre>
 
 
-
-
-
-
-</div>
+<p>
+电路和程序都非常简单，电路先在面包板上试好，再焊接到一块小的万能板上，塞到串口的接口盒中。
+</p>
+<p>
+<img src="./img/rs232shutter.jpg"  alt="./img/rs232shutter.jpg" />
+</p></div>
 </div>
 </div>
 
